@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Problem List
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4 problem-title">Problem List</h2>
+
+        <form method="get" class="row mb-4 g-3 justify-content-center">
+            <div class="col-md-4">
+                <input type="text" name="search" class="form-control bg-dark text-light border-info"
+                       placeholder="Search"
+                       value="{{ search if search else '' }}">
+            </div>
+
+            <div class="col-md-3">
+                <select name="category" class="form-select bg-dark text-light border-primary">
+                    <option value="all">All Categories</option>
+                    {% for c in categories %}
+                    <option value="{{ c }}" {% if selected_category == c %}selected{% endif %}>
+                        {{ c }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <select name="difficulty" class="form-select bg-dark text-light border-success">
+                    <option value="all">All Difficulties</option>
+                    {% for d in difficulties %}
+                    <option value="{{ d }}" {% if selected_difficulty == d %}selected{% endif %}>
+                        {{ d }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-success w-100">Apply</button>
+            </div>
+        </form>
+
+        <table class="table table-dark table-striped table-hover text-center align-middle">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Problem Name</th>
+                <th>Category</th>
+                <th>Difficulty</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for p in problems %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.name }}</td>
+                <td>{{ p.category }}</td>
+                <td>{{ p.difficulty }}</td>
+                <td>
+                    {% if not p.manually_solved %}
+                        <form action="{{ url_for('mark_solved', problem_id=p.id) }}" method="post" style="display:inline;">
+                            <button class="btn btn-sm btn-outline-success">Mark Solved</button>
+                        </form>
+                    {% else %}
+                        <span class="badge bg-success">Solved</span>
+                    {% endif %}
+
+                    {% if p.ai_solved %}
+                        <a href="{{ url_for('solution', problem_id=p.id) }}" class="btn btn-sm btn-primary ms-1">
+                            View AI Solution
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('solution', problem_id=p.id) }}" class="btn btn-sm btn-info ms-1">
+                            Solve with AI
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

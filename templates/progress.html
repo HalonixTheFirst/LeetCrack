@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Progress{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+  <div class="gradient-bg text-center">
+    <h2 class="fw-bold mb-4 text-center problem-title">Your Progress</h2>
+
+    <p class="lead">
+      Solved <span class="text-success fw-bold">{{ solved }}</span> out of
+      <span class="fw-bold">{{ total }}</span> problems
+    </p>
+
+    <div class="progress" style="height: 30px; border-radius: 15px;">
+      <div
+          class="progress-bar
+                 {% if (solved / total * 100) < 30 %} bg-danger
+                 {% elif (solved / total * 100) < 70 %} bg-warning
+                 {% else %} bg-success {% endif %}"
+          role="progressbar"
+        style="%width:{{ (solved / total * 100) | round(1) }}%;"
+          aria-valuenow="{{ solved }}"
+          aria-valuemin="0"
+          aria-valuemax="{{ total }}">
+          {{ (solved / total * 100)|round(1) }}%
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <a href="/problems" class="btn btn-primary btn-custom">Go to Problem List</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

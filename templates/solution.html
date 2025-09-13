@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Solve Problem
+{% endblock %}
+
+{% block main %}
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+<div class="container mt-5">
+  <div class="p-4 rounded shadow-lg bg-dark text-light border border-secondary">
+    <h2 class="mb-3 text-warning">{{ problem.name }}</h2>
+    <p><strong class="text-info">Category:</strong> {{ problem.category }}</p>
+    <p><strong class="text-info">Difficulty:</strong> {{ problem.difficulty }}</p>
+    <hr class="border-light">
+    <h4 class="text-success">AI Solution:</h4>
+    <pre class="bg-black text-light p-3 rounded border border-secondary">
+{{ llm_answer }}
+    </pre>
+  </div>
+</div>
+{% endblock %}

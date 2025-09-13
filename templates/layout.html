@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetCode Tracker - {% block title %}{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #640D5F;
+      --secondary: #B12C00;
+      --accent: #EB5B00;
+      --highlight: #FFCC00;
+    }
+
+    body {
+      background-color: #0d0d0d;
+      color: #f5f5f5;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Navbar */
+    .navbar-gradient {
+      background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+      padding: 0.8rem 1.5rem;
+      border-bottom: 2px solid var(--accent);
+    }
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      color: var(--highlight) !important;
+    }
+    .navbar-gradient .nav-link {
+      color: #fff !important;
+      margin-left: 15px;
+      transition: 0.3s;
+    }
+    .navbar-gradient .nav-link:hover {
+      color: var(--highlight) !important;
+      text-shadow: 0 0 8px var(--highlight);
+    }
+
+    /* Buttons */
+    .btn-custom {
+      border-radius: 30px;
+      padding: 6px 18px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .btn-dark {
+      background-color: var(--primary);
+      border: none;
+      color: #fff;
+    }
+    .problem-title {
+  font-size: 2.5rem;
+  color: #FFCC00; /* your highlight yellow */
+  letter-spacing: 2px;
+  text-shadow: 0px 0px 10px rgba(255, 204, 0, 0.6);
+}
+
+    .btn-dark:hover {
+      background-color: var(--secondary);
+      color: #fff;
+    }
+    .btn-light {
+      background-color: var(--highlight);
+      border: none;
+      color: #000;
+    }
+    .btn-light:hover {
+      background-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Profile Badge */
+    .profile-badge {
+      background: var(--secondary);
+      color: var(--highlight);
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+
+    /* Gradient Sections */
+    .gradient-bg {
+      background: linear-gradient(
+        135deg,
+        var(--primary) 40%,
+        var(--secondary) 70%,
+        var(--accent) 90%,
+        var(--highlight) 100%
+      );
+      border-radius: 20px;
+      padding: 60px 20px;
+      margin: 50px auto;
+      max-width: 900px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    /* Footer */
+    footer {
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      text-align: center;
+      margin-top: 60px;
+      border-radius: 10px 10px 0 0;
+      color: #eee;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-gradient">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">LeetCrack</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          {% if session.get("user_id") %}
+            <li class="nav-item"><a class="nav-link" href="/problems">Problems</a></li>
+            <li class="nav-item"><a class="nav-link" href="/problems">Solve Problems With AI</a></li>
+        </ul>
+
+        <!-- Right side: username + logout -->
+        <div class="d-flex align-items-center ms-auto">
+          <span class="profile-badge">{{name}}</span>
+          <a class="nav-link" href="/logout">Log Out</a>
+        </div>
+
+        {% else %}
+        <ul class="navbar-nav ms-auto">
+          {% if request.path == "/login" %}
+            <li class="nav-item">
+              <a href="/register">
+                <button class="btn btn-dark btn-sm btn-custom ms-2">Register</button>
+              </a>
+            </li>
+          {% elif request.path == "/register" %}
+            <li class="nav-item">
+              <a href="/login">
+                <button class="btn btn-light btn-sm btn-custom ms-2">Login</button>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    {% block main %}
+    <section class="gradient-bg">
+      <h1 class="mb-3">Welcome to LeetCrack</h1>
+      <p class="lead">Track your progress, solve problems, and crack interviews with confidence.</p>
+    </section>
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 LeetCrack | Built for problem solvers 🚀</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
