@@ -51,33 +51,37 @@ def login():
 def register():
     if request.method == "POST":
         name = request.form.get("username")
-        if not name:
-            return render_template("register.html", error="Please provide a username")
-        if request.form.get("username").isdigit():
-            return render_template("register.html", error="Invalid characters in username")
-
         password = request.form.get("password")
         confirm_password = request.form.get("confirmation")
+
+        if not name:
+            return render_template("register.html", error="Please provide a username")
+        if name.isdigit():
+            return render_template("register.html", error="Invalid characters in username")
         if not password or not confirm_password:
             return render_template("register.html", error="Please provide a password")
         if password != confirm_password:
             return render_template("register.html", error="Passwords do not match!")
 
-        pw_hash = generate_password_hash(password)
+        existing = db.execute(
+            text("SELECT id FROM users WHERE username = :username"),
+            {"username": name}
+        ).first()
 
-        try:
-            db.execute(
-                text("INSERT INTO users (username, hash) VALUES (:username, :hash)"),
-                {"username": name, "hash": pw_hash}
-            )
-            db.commit()
-        except Exception:
-            db.rollback()
+        if existing:
             return render_template("register.html", error="Username already taken")
 
+        pw_hash = generate_password_hash(password)
+        db.execute(
+            text("INSERT INTO users (username, hash) VALUES (:username, :hash)"),
+            {"username": name, "hash": pw_hash}
+        )
+        db.commit()
+
         return redirect("/login")
-    else:
-        return render_template("register.html")
+
+    return render_template("register.html")
+
 
 
 @app.route("/")
