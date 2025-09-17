@@ -1,4 +1,6 @@
 cs50
+google-generativeai
+llama-cpp-python
 Flask
 Flask-Session
 pytz
