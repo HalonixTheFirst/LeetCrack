@@ -13,7 +13,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-db = SQL("sqlite:///data/ProblemList.db")
+db_url = os.getenv("DATABASE_URL", "sqlite:///data/ProblemList.db")
+db = SQL(db_url)
 
 @app.route("/login",methods=["GET","POST"])
 def login():
