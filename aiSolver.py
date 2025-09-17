@@ -17,7 +17,7 @@ if os.path.exists(localLlamaPath):
         )
     except Exception :
         print("Loading Failed")
-GEMINI_API_KEY ="AIzaSyBR26JtclS7O938KKpR1Q1mTIt-PzRbLMs"
+GEMINI_API_KEY =os.getenv("GEMINI_API_KEY")
 generativeai.configure(api_key=GEMINI_API_KEY)
 
 
