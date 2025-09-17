@@ -19,7 +19,6 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Navbar */
     .navbar-gradient {
       background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
       padding: 0.8rem 1.5rem;
@@ -41,7 +40,6 @@
       text-shadow: 0 0 8px var(--highlight);
     }
 
-    /* Buttons */
     .btn-custom {
       border-radius: 30px;
       padding: 6px 18px;
@@ -52,13 +50,13 @@
       background-color: var(--primary);
       border: none;
       color: #fff;
-    }
+      }
     .problem-title {
-  font-size: 2.5rem;
-  color: #FFCC00; /* your highlight yellow */
-  letter-spacing: 2px;
-  text-shadow: 0px 0px 10px rgba(255, 204, 0, 0.6);
-}
+      font-size: 2.5rem;
+      color: #FFCC00; 
+      letter-spacing: 2px;
+      text-shadow: 0px 0px 10px rgba(255, 204, 0, 0.6);
+    }
 
     .btn-dark:hover {
       background-color: var(--secondary);
@@ -74,7 +72,6 @@
       color: #fff;
     }
 
-    /* Profile Badge */
     .profile-badge {
       background: var(--secondary);
       color: var(--highlight);
@@ -84,7 +81,6 @@
       margin-right: 12px;
     }
 
-    /* Gradient Sections */
     .gradient-bg {
       background: linear-gradient(
         135deg,
@@ -101,7 +97,6 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
-    /* Footer */
     footer {
       padding: 20px;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -114,7 +109,7 @@
   </style>
 </head>
 <body>
-  <!-- Navbar -->
+
   <nav class="navbar navbar-expand-lg navbar-gradient">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">LeetCrack</a>
@@ -155,7 +150,6 @@
     </div>
   </nav>
 
-  <!-- Main Content -->
   <main>
     {% block main %}
     <section class="gradient-bg">
@@ -165,7 +159,6 @@
     {% endblock %}
   </main>
 
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 LeetCrack | Crush Leetcode</p>
   </footer>
