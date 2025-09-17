@@ -24,7 +24,8 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 generativeai.configure(api_key=GEMINI_API_KEY)
 
 
-db = SQL("sqlite:///data/ProblemList.db")
+db_url = os.getenv("DATABASE_URL", "sqlite:///data/ProblemList.db")
+db = SQL(db_url)
 
 def getLLManswer(problem_id):
     promptList=db.execute("SELECT llmprompt FROM problems WHERE id = ?",problem_id)
