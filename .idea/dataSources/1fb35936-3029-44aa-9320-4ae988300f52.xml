@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2025-09-10.10:52:44</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-09-17.01:07:59</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1626,169 +1626,173 @@
       <Position>6</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <key id="568" parent="555">
+    <column id="568" parent="555" name="Solution">
+      <Position>7</Position>
+      <StoredType>TEXT|0s</StoredType>
+    </column>
+    <key id="569" parent="555">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="569" parent="556" name="id">
+    <column id="570" parent="556" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="570" parent="556" name="user_id">
+    <column id="571" parent="556" name="user_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="571" parent="556" name="problem_id">
+    <column id="572" parent="556" name="problem_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="572" parent="556" name="solution_text">
+    <column id="573" parent="556" name="solution_text">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="573" parent="556" name="created_at">
+    <column id="574" parent="556" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>5</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <foreign-key id="574" parent="556">
+    <foreign-key id="575" parent="556">
       <ColNames>user_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
     </foreign-key>
-    <foreign-key id="575" parent="556">
+    <foreign-key id="576" parent="556">
       <ColNames>problem_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>problems</RefTableName>
     </foreign-key>
-    <key id="576" parent="556">
+    <key id="577" parent="556">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="577" parent="557" name="type">
+    <column id="578" parent="557" name="type">
       <Position>1</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="578" parent="557" name="name">
+    <column id="579" parent="557" name="name">
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="579" parent="557" name="tbl_name">
+    <column id="580" parent="557" name="tbl_name">
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="580" parent="557" name="rootpage">
+    <column id="581" parent="557" name="rootpage">
       <Position>4</Position>
       <StoredType>INT|0s</StoredType>
     </column>
-    <column id="581" parent="557" name="sql">
+    <column id="582" parent="557" name="sql">
       <Position>5</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="582" parent="558" name="name">
+    <column id="583" parent="558" name="name">
       <Position>1</Position>
     </column>
-    <column id="583" parent="558" name="seq">
+    <column id="584" parent="558" name="seq">
       <Position>2</Position>
     </column>
-    <column id="584" parent="559" name="id">
+    <column id="585" parent="559" name="id">
       <AutoIncrement>1</AutoIncrement>
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="585" parent="559" name="user_id">
+    <column id="586" parent="559" name="user_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="586" parent="559" name="date">
+    <column id="587" parent="559" name="date">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="587" parent="559" name="count">
+    <column id="588" parent="559" name="count">
       <DefaultExpression>0</DefaultExpression>
       <Position>4</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <index id="588" parent="559" name="sqlite_autoindex_usage_log_1">
+    <index id="589" parent="559" name="sqlite_autoindex_usage_log_1">
       <ColNames>user_id
 date</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="589" parent="559">
+    <key id="590" parent="559">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="590" parent="559">
+    <key id="591" parent="559">
       <ColNames>user_id
 date</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_usage_log_1</UnderlyingIndexName>
     </key>
-    <column id="591" parent="560" name="user_id">
+    <column id="592" parent="560" name="user_id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="592" parent="560" name="problem_id">
+    <column id="593" parent="560" name="problem_id">
       <Position>2</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="593" parent="560" name="solved_at">
+    <column id="594" parent="560" name="solved_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>3</Position>
       <StoredType>TIMESTAMP|0s</StoredType>
     </column>
-    <foreign-key id="594" parent="560">
+    <foreign-key id="595" parent="560">
       <ColNames>user_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
     </foreign-key>
-    <foreign-key id="595" parent="560">
+    <foreign-key id="596" parent="560">
       <ColNames>problem_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>problems</RefTableName>
     </foreign-key>
-    <index id="596" parent="560" name="sqlite_autoindex_user_solved_1">
+    <index id="597" parent="560" name="sqlite_autoindex_user_solved_1">
       <ColNames>user_id
 problem_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="597" parent="560">
+    <key id="598" parent="560">
       <ColNames>user_id
 problem_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_user_solved_1</UnderlyingIndexName>
     </key>
-    <column id="598" parent="561" name="id">
+    <column id="599" parent="561" name="id">
       <Position>1</Position>
       <StoredType>INTEGER|0s</StoredType>
     </column>
-    <column id="599" parent="561" name="username">
+    <column id="600" parent="561" name="username">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <column id="600" parent="561" name="hash">
+    <column id="601" parent="561" name="hash">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>TEXT|0s</StoredType>
     </column>
-    <index id="601" parent="561" name="sqlite_autoindex_users_1">
+    <index id="602" parent="561" name="sqlite_autoindex_users_1">
       <ColNames>username</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="602" parent="561">
+    <key id="603" parent="561">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="603" parent="561">
+    <key id="604" parent="561">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_users_1</UnderlyingIndexName>
     </key>

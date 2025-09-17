@@ -13,7 +13,8 @@ cur.execute("""CREATE TABLE IF NOT EXISTS problems(
             topics TEXT,
             difficulty TEXT,
             category TEXT,
-            llmprompt TEXT  
+            llmprompt TEXT,
+            solution TEXT
                )""")
 
 cur.execute("""CREATE TABLE IF NOT EXISTS users(

@@ -82,6 +82,18 @@ def mark_solved(problem_id):
 
     return redirect("/problems")
 
+@app.route("/unsolve/<int:problem_id>", methods=["POST"])
+@login_required
+def mark_unsolved(problem_id):
+    user_id = session["user_id"]
+
+    db.execute("""
+        DELETE FROM user_solved
+        WHERE user_id = ? AND problem_id = ?
+    """, user_id, problem_id)
+
+    return redirect("/problems")
+
 @app.route("/problems", methods=["GET", "POST"])
 @login_required
 def showProblem():
@@ -139,36 +151,48 @@ def progress():
     user_id= session["user_id"]
     total= db.execute("SELECT COUNT(*) as count FROM problems")[0]["count"]
     solved= db.execute("SELECT COUNT(*) as count FROM user_solved WHERE user_id = ?",user_id)[0]["count"]
-    return render_template("progress.html",solved=solved,total=total)
+    return render_template("progress.html",solved=solved,total=total,name=db.execute("SELECT username FROM users WHERE id = ?", user_id)[0]["username"])
 
 @app.route("/solution/<int:problem_id>", methods=["GET", "POST"])
 @login_required
 def solution(problem_id):
     user_id = session["user_id"]
 
-    problem = db.execute(
-        "SELECT id, name, category, difficulty FROM problems WHERE id = ?",
+    problem = db.execute("SELECT id, name, category, difficulty FROM problems WHERE id = ?",
         problem_id
     )
     if not problem:
         return render_template("problems.html", error="Problem Not Found")
     problem = problem[0]
 
-    existing_solution = db.execute(
-        "SELECT solution_text FROM solutions WHERE user_id = ? AND problem_id = ?",
-        user_id, problem_id
+    user_solution=db.execute( "SELECT solution_text FROM solutions WHERE problem_id = ? AND user_id = ?",
+        problem_id, user_id
     )
-
-    if existing_solution:
-        llm_answer = existing_solution[0]["solution_text"]
+    if user_solution:
+        llm_answer = user_solution[0]["solution_text"]
         return render_template("solution.html",
                                problem=problem,
                                llm_answer=llm_answer,
                                name=db.execute("SELECT username FROM users WHERE id = ?", user_id)[0]["username"])
 
+    existing_solution = db.execute("SELECT Solution FROM problems WHERE id = ?",
+        problem_id
+    )
+
+    if existing_solution:
+        llm_answer = existing_solution[0]["Solution"]
+        if llm_answer:
+            db.execute(
+                "INSERT INTO solutions (user_id, problem_id, solution_text) VALUES (?, ?, ?)",
+                user_id, problem_id, llm_answer
+            )
+            return render_template("solution.html",
+                                   problem=problem,
+                                   llm_answer=llm_answer,
+                                   name=db.execute("SELECT username FROM users WHERE id = ?", user_id)[0]["username"])
+
     today = datetime.now().strftime("%Y-%m-%d")
-    usage = db.execute(
-        "SELECT count FROM usage_log WHERE user_id = ? AND date = ?",
+    usage = db.execute("SELECT count FROM usage_log WHERE user_id = ? AND date = ?",
         user_id, today
     )
 
@@ -178,21 +202,32 @@ def solution(problem_id):
                                error="You have reached your daily limit of 5 solutions. Please try again tomorrow.",
                                name=db.execute("SELECT username FROM users WHERE id = ?", user_id)[0]["username"])
 
+
     llm_answer = getLLManswer(problem_id)
 
-    db.execute(
-        "INSERT INTO solutions (user_id, problem_id, solution_text) VALUES (?, ?, ?)",
+    if not llm_answer:
+        return render_template("solution.html",
+            problem=problem,
+            error="Solution not available at the moment. Please try again later.",
+            name=db.execute("SELECT username FROM users WHERE id = ?", user_id)[0]["username"]
+        )
+    #
+    #
+    db.execute("INSERT INTO solutions (user_id, problem_id, solution_text) VALUES (?, ?, ?)",
         user_id, problem_id, llm_answer
     )
 
+    db.execute("UPDATE problems SET solution = ? WHERE id = ?",
+        llm_answer, problem_id
+    )
+
+
     if usage:
-        db.execute(
-            "UPDATE usage_log SET count = count + 1 WHERE user_id = ? AND date = ?",
+        db.execute("UPDATE usage_log SET count = count + 1 WHERE user_id = ? AND date = ?",
             user_id, today
         )
     else:
-        db.execute(
-            "INSERT INTO usage_log (user_id, date, count) VALUES (?, ?, 1)",
+        db.execute("INSERT INTO usage_log (user_id, date, count) VALUES (?, ?, 1)",
             user_id, today
         )
 
@@ -200,6 +235,7 @@ def solution(problem_id):
                            problem=problem,
                            llm_answer=llm_answer,
                            name=db.execute("SELECT username FROM users WHERE id = ?", user_id)[0]["username"])
+
 
 @app.route("/logout")
 def logout():

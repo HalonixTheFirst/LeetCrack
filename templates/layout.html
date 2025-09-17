@@ -125,11 +125,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           {% if session.get("user_id") %}
-            <li class="nav-item"><a class="nav-link" href="/problems">Problems</a></li>
-            <li class="nav-item"><a class="nav-link" href="/problems">Solve Problems With AI</a></li>
+            <li class="nav-item"><a class="nav-link" href="/problems">Track Problems</a></li>
+            <li class="nav-item"><a class="nav-link" href="/progress">View Progress</a></li>
         </ul>
 
-        <!-- Right side: username + logout -->
         <div class="d-flex align-items-center ms-auto">
           <span class="profile-badge">{{name}}</span>
           <a class="nav-link" href="/logout">Log Out</a>
