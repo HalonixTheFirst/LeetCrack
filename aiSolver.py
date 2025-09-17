@@ -1,48 +1,31 @@
 from google import generativeai
 from cs50 import SQL
 import os
-from llama_cpp import Llama
 
-
-localLlamaPath="./models/codellama-7b-instruct-hf-q4_k_m.gguf"
-llm=None
-if os.path.exists(localLlamaPath):
-    print("Local model found....")
-    try:
-        llm=Llama(model_path=localLlamaPath,
-        # n_gpu_layers=-1, # Uncomment to use GPU acceleration
-        # seed=1337, # Uncomment to set a specific seed
-        # n_ctx=2048, # Uncomment to increase the context window
-        #     n_threads=4,
-        )
-    except Exception :
-        print("Loading Failed")
-GEMINI_API_KEY =os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 generativeai.configure(api_key=GEMINI_API_KEY)
-
 
 db = SQL("sqlite:///data/ProblemList.db")
 
 def getLLManswer(problem_id):
-    promptList=db.execute("SELECT llmprompt FROM problems WHERE id = ?",problem_id)
-    prompt=promptList[0]["llmprompt"]
-    prompt=prompt+" (Write in plain text and give C++ and Python Codes)"
-    if llm:
-        output=llm( f"[INST] {prompt} [/INST]",
-        max_tokens=512,  # safer than 2048 for Flask
-        # stop=["</s>"],
-        )
-        answer=output["choices"][0]["text"].strip()
-        # return(prompt)
-        # print(answer)
-        return answer
-    gemini_model = generativeai.GenerativeModel("gemini-2.5-flash")
-    response = gemini_model.generate_content(
-        prompt
-    )
-    return (response.text)
+    promptList = db.execute("SELECT llmprompt FROM problems WHERE id = ?", problem_id)
+    prompt = promptList[0]["llmprompt"]
+    prompt += " (Write in plain text and give C++ and Python Codes)"
 
-# def main():
-#     print(getLLManswer(2))
-#
-# main()
+    # Try to use LLaMA if available, but ignore errors
+    try:
+        from llama_cpp import Llama
+        localLlamaPath = "./models/codellama-7b-instruct-hf-q4_k_m.gguf"
+        if os.path.exists(localLlamaPath):
+            llm = Llama(model_path=localLlamaPath)
+            output = llm(f"[INST] {prompt} [/INST]", max_tokens=512)
+            answer = output["choices"][0]["text"].strip()
+            return answer
+    except Exception:
+        # If LLaMA fails, fall back to Gemini
+        pass
+
+    # Always use Gemini API
+    gemini_model = generativeai.GenerativeModel("gemini-2.5-flash")
+    response = gemini_model.generate_content(prompt)
+    return response.text
