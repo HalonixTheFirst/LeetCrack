@@ -1,12 +1,14 @@
 from google import generativeai
 from cs50 import SQL
 import os
-from llama_cpp import Llama
-
+try:
+    from llama_cpp import Llama
+except ImportError:
+    Llama = None
 
 localLlamaPath="./models/codellama-7b-instruct-hf-q4_k_m.gguf"
 llm=None
-if os.path.exists(localLlamaPath):
+if Llama and os.path.exists(localLlamaPath):
     print("Local model found....")
     try:
         llm=Llama(model_path=localLlamaPath,
@@ -17,8 +19,8 @@ if os.path.exists(localLlamaPath):
         )
     except Exception :
         print("Loading Failed")
-with open("env/gemini_api_key.txt", "r") as f:
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 generativeai.configure(api_key=GEMINI_API_KEY)
 
 
