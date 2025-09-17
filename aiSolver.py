@@ -13,12 +13,12 @@ if os.path.exists(localLlamaPath):
         # n_gpu_layers=-1, # Uncomment to use GPU acceleration
         # seed=1337, # Uncomment to set a specific seed
         # n_ctx=2048, # Uncomment to increase the context window
-        #     n_threads=4,
+        # n_threads=4,
         )
     except Exception :
         print("Loading Failed")
 with open("env/gemini_api_key.txt", "r") as f:
-    GEMINI_API_KEY = f.read().strip()
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 generativeai.configure(api_key=GEMINI_API_KEY)
 
 
@@ -30,7 +30,7 @@ def getLLManswer(problem_id):
     prompt=prompt+" (Write in plain text and give C++ and Python Codes)"
     if llm:
         output=llm( f"[INST] {prompt} [/INST]",
-        max_tokens=512,  # safer than 2048 for Flask
+        max_tokens=512, 
         # stop=["</s>"],
         )
         answer=output["choices"][0]["text"].strip()
@@ -42,9 +42,4 @@ def getLLManswer(problem_id):
         prompt
     )
     return (response.text)
-
-# def main():
-#     print(getLLManswer(2))
-#
-# main()
 
