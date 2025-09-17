@@ -4,3 +4,5 @@ Flask
 Flask-Session
 pytz
 requests
+SQLAlchemy
+psycopg2-binary
